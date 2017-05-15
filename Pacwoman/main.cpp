@@ -1,4 +1,4 @@
-#include <SFML\System.hpp>
+#include <iostream>
 
 int main()
 {

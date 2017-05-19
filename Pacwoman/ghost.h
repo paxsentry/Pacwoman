@@ -1,0 +1,4 @@
+#ifndef PACWOMAN_GHOST_H
+#define PACWOMAN_GHOST_H
+
+#endif  // !PACWOMAN_GHOST_H

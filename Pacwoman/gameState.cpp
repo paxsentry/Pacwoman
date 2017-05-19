@@ -1,6 +1,14 @@
 #include "gameState.h"
 #include "game.h"
 
+template <typename T>
+
+void centerOrigin(T& drawable)
+{
+    sf::FloatRect bound = drawable.getLocalBounds();
+    drawable.setOrigin(bound.width / 2, bound.height / 2);
+}
+
 GameState::GameState(Game* game)
     :m_game(game)
 {
@@ -14,6 +22,9 @@ NoCoinState::NoCoinState(Game* game)
 
     m_text.setFont(game->getFont());
     m_text.setString("Insert coin!");
+
+    centerOrigin(m_text);
+    m_text.setPosition(480, 300);
 }
 
 GetReadyState::GetReadyState(Game* game)

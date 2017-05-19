@@ -16,7 +16,8 @@ public:
         GetReady,
         Playing,
         Won,
-        Lost
+        Lost,
+        Count
     };
 
     GameState(Game* game);

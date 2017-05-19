@@ -2,6 +2,19 @@
 
 Game::Game() :m_window(sf::VideoMode(1280, 960), "Pac Woman")
 {
+    m_gameStates[GameState::NoCoin] = new NoCoinState(this);
+    m_gameStates[GameState::GetReady] = new GetReadyState(this);
+    m_gameStates[GameState::Playing] = new PlayingState(this);
+    m_gameStates[GameState::Won] = new WonState(this);
+    m_gameStates[GameState::Lost] = new LostState(this);
+
+    changeGameState(GameState::NoCoin);
+}
+
+Game::~Game()
+{
+    for (GameState* gameState : m_gameStates)
+        delete gameState;
 }
 
 void Game::run()
@@ -32,7 +45,7 @@ void Game::run()
 
 void Game::changeGameState(GameState::State gameState)
 {
-
+    m_currentState = m_gameStates[gameState];
 }
 
 GameState::GameState()

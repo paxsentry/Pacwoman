@@ -89,7 +89,7 @@ public:
     void update(sf::Time delta);
     void draw(sf::RenderWindow& window);
 private:
-
+    sf::Text m_text;
 };
 
 class LostState : public GameState

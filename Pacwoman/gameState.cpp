@@ -48,6 +48,12 @@ PlayingState::PlayingState(Game* game)
 WonState::WonState(Game* game)
     : GameState(game)
 {
+    m_text.setFont(game->getFont());
+    m_text.setString("You won!");
+    m_text.setCharacterSize(42);
+
+    centerOrigin(m_text);
+    m_text.setPosition(480, 240);
 }
 
 LostState::LostState(Game* game)
@@ -167,10 +173,17 @@ void WonState::moveStick(sf::Vector2i direction)
 
 void WonState::update(sf::Time delta)
 {
+   static sf::Time timeBuffer = sf::Time::Zero;
+   timeBuffer += delta;
+
+   if (timeBuffer.asSeconds() >= 5) {
+       getGame()->changeGameState(GameState::GetReady);
+   }
 }
 
 void WonState::draw(sf::RenderWindow& window)
 {
+    window.draw(m_text);
 }
 
 void LostState::insertCoin()

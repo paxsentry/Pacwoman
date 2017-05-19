@@ -32,6 +32,12 @@ NoCoinState::NoCoinState(Game* game)
 GetReadyState::GetReadyState(Game* game)
     : GameState(game)
 {
+    m_text.setFont(game->getFont());
+    m_text.setString("Press Start when you're ready...");
+    m_text.setCharacterSize(14);
+
+    centerOrigin(m_text);
+    m_text.setPosition(480, 480);
 }
 
 PlayingState::PlayingState(Game* game)
@@ -104,6 +110,7 @@ void GetReadyState::update(sf::Time delta)
 
 void GetReadyState::draw(sf::RenderWindow& window)
 {
+    window.draw(m_text);
 }
 
 void PlayingState::insertCoin()
@@ -112,6 +119,7 @@ void PlayingState::insertCoin()
 
 void PlayingState::pressButton()
 {
+    getGame()->changeGameState(GameState::Playing);
 }
 
 void PlayingState::moveStick(sf::Vector2i direction)

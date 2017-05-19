@@ -13,30 +13,28 @@ void Game::run()
         {
             if (event.type == sf::Event::Closed) { m_window.close(); }
 
-            if (event.key.code == sf::Keyboard::I) { insertCoin(); }
+            if (event.key.code == sf::Keyboard::I) { m_currentState->insertCoin(); }
 
-            if (event.key.code == sf::Keyboard::S) { pressButton(); }
+            if (event.key.code == sf::Keyboard::S) { m_currentState->pressButton(); }
 
-            if (event.key.code == sf::Keyboard::Left) { moveStick(sf::Vector2i(-1, 0)); }
-            if (event.key.code == sf::Keyboard::Right) { moveStick(sf::Vector2i(1, 0)); }
-            if (event.key.code == sf::Keyboard::Up) { moveStick(sf::Vector2i(0, -1)); }
-            if (event.key.code == sf::Keyboard::Down) { moveStick(sf::Vector2i(0, 1)); }
+            if (event.key.code == sf::Keyboard::Left) { m_currentState->moveStick(sf::Vector2i(-1, 0)); }
+            if (event.key.code == sf::Keyboard::Right) { m_currentState->moveStick(sf::Vector2i(1, 0)); }
+            if (event.key.code == sf::Keyboard::Up) { m_currentState->moveStick(sf::Vector2i(0, -1)); }
+            if (event.key.code == sf::Keyboard::Down) { m_currentState->moveStick(sf::Vector2i(0, 1)); }
 
+            m_currentState->update(sf::seconds(1));
             m_window.clear();
-
+            m_currentState->draw(m_window);
             m_window.display();
         }
     }
 }
 
-void Game::insertCoin()
+void Game::changeGameState(GameState::State gameState)
 {
+
 }
 
-void Game::pressButton()
-{
-}
-
-void Game::moveStick(sf::Vector2i direction)
+GameState::GameState()
 {
 }

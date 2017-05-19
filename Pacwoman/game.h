@@ -2,6 +2,7 @@
 #define PACWOMAN_GAME_H
 
 #include <SFML/Graphics.hpp>
+#include "gameState.h"
 
 class Game
 {
@@ -10,14 +11,11 @@ public:
     
     void run();
 
-    void insertCoin();
-
-    void pressButton();
-
-    void moveStick(sf::Vector2i direction);
+    void changeGameState(GameState::State gameState);
 
 private:
     sf::RenderWindow m_window;
+    GameState* m_currentState;
 };
 
 #endif // !PACWOMAN_GAME_H

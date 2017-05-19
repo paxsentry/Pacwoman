@@ -103,7 +103,9 @@ public:
     void update(sf::Time delta);
     void draw(sf::RenderWindow& window);
 private:
-
+    sf::Text m_text;
+    sf::Time m_countDown;
+    sf::Text m_countDownText;
 };
 
 #endif // !PACWOMAN_GAMESTATE_H

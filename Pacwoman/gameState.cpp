@@ -53,6 +53,18 @@ WonState::WonState(Game* game)
 LostState::LostState(Game* game)
     : GameState(game)
 {
+    m_text.setFont(game->getFont());
+    m_text.setString("You lost!");
+    m_text.setCharacterSize(42);
+
+    centerOrigin(m_text);
+    m_text.setPosition(480, 240);
+
+    m_countDownText.setFont(game->getFont());
+    m_countDownText.setCharacterSize(12);
+
+    centerOrigin(m_countDownText);
+    m_countDownText.setPosition(480, 360);
 }
 
 Game* GameState::getGame() const
@@ -102,6 +114,13 @@ void GetReadyState::pressButton()
 
 void GetReadyState::moveStick(sf::Vector2i direction)
 {
+    if (direction.x == -1) {
+        getGame()->changeGameState(GameState::Lost);
+    }
+
+    if (direction.x == 1) {
+        getGame()->changeGameState(GameState::Won);
+    }
 }
 
 void GetReadyState::update(sf::Time delta)
@@ -168,8 +187,18 @@ void LostState::moveStick(sf::Vector2i direction)
 
 void LostState::update(sf::Time delta)
 {
+    m_countDown += delta;
+
+    if (m_countDown.asSeconds() >= 10) {
+        getGame()->changeGameState(GameState::NoCoin);
+    }
+
+    m_countDownText.setString("Insert a coin to continue... " +
+        std::to_string(10 - static_cast<int>(m_countDown.asSeconds())));
 }
 
 void LostState::draw(sf::RenderWindow& window)
 {
+    window.draw(m_text);
+    window.draw(m_countDownText);
 }

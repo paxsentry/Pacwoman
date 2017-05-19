@@ -9,6 +9,11 @@ GameState::GameState(Game* game)
 NoCoinState::NoCoinState(Game* game)
     : GameState(game)
 {
+    m_sprite.setTexture(game->getLogo());
+    m_sprite.setPosition(20, 50);
+
+    m_text.setFont(game->getFont());
+    m_text.setString("Insert coin!");
 }
 
 GetReadyState::GetReadyState(Game* game)
@@ -54,6 +59,8 @@ void NoCoinState::update(sf::Time delta)
 
 void NoCoinState::draw(sf::RenderWindow& window)
 {
+    window.draw(m_sprite);
+    window.draw(m_text);
 }
 
 void GetReadyState::insertCoin()

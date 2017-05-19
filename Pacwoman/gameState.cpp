@@ -25,6 +25,8 @@ NoCoinState::NoCoinState(Game* game)
 
     centerOrigin(m_text);
     m_text.setPosition(480, 300);
+
+    m_displayText = true;
 }
 
 GetReadyState::GetReadyState(Game* game)
@@ -54,6 +56,7 @@ Game* GameState::getGame() const
 
 void NoCoinState::insertCoin()
 {
+    getGame()->changeGameState(GameState::GetReady);
 }
 
 void NoCoinState::pressButton()
@@ -66,12 +69,21 @@ void NoCoinState::moveStick(sf::Vector2i direction)
 
 void NoCoinState::update(sf::Time delta)
 {
+    static sf::Time timeBuffer = sf::Time::Zero;
+    timeBuffer += delta;
+
+    while (timeBuffer >= sf::seconds(0.5)) {
+        m_displayText = !m_displayText;
+        timeBuffer -= sf::seconds(1);
+    }
 }
 
 void NoCoinState::draw(sf::RenderWindow& window)
 {
     window.draw(m_sprite);
-    window.draw(m_text);
+    if (m_displayText) {
+        window.draw(m_text);
+    }
 }
 
 void GetReadyState::insertCoin()

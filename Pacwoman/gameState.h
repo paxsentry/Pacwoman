@@ -46,6 +46,8 @@ public:
 private:
     sf::Text m_text;
     sf::Sprite m_sprite;
+
+    bool m_displayText;
 };
 
 class GetReadyState : public GameState

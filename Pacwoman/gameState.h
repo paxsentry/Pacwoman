@@ -46,4 +46,60 @@ private:
 
 };
 
+class GetReadyState : public GameState
+{
+public:
+    GetReadyState(Game* game);
+
+    void insertCoin();
+    void pressButton();
+    void moveStick(sf::Vector2i direction);
+    void update(sf::Time delta);
+    void draw(sf::RenderWindow& window);
+private:
+
+};
+
+class PlayingState : public GameState
+{
+public:
+    PlayingState(Game* game);
+
+    void insertCoin();
+    void pressButton();
+    void moveStick(sf::Vector2i direction);
+    void update(sf::Time delta);
+    void draw(sf::RenderWindow& window);
+private:
+
+};
+
+class WonState : public GameState
+{
+public:
+    WonState(Game* game);
+
+    void insertCoin();
+    void pressButton();
+    void moveStick(sf::Vector2i direction);
+    void update(sf::Time delta);
+    void draw(sf::RenderWindow& window);
+private:
+
+};
+
+class LostState : public GameState
+{
+public:
+    LostState(Game* game);
+
+    void insertCoin();
+    void pressButton();
+    void moveStick(sf::Vector2i direction);
+    void update(sf::Time delta);
+    void draw(sf::RenderWindow& window);
+private:
+
+};
+
 #endif // !PACWOMAN_GAMESTATE_H

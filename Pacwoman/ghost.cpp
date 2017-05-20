@@ -48,6 +48,8 @@ void Ghost::update(sf::Time delta)
         m_weakAnimator.update(delta);
         m_weakAnimator.animate(m_visual);
     }
+
+    Character::update(delta);
 }
 
 void Ghost::draw(sf::RenderTarget & target, sf::RenderStates states) const

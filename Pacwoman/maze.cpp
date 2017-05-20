@@ -40,7 +40,7 @@ void Maze::loadLevel(std::string name)
         }
     }
 
-    m_renderTexture.create(64 * m_mazeSize.x, 64 * m_mazeSize.y);
+    m_renderTexture.create(32 * m_mazeSize.x, 32 * m_mazeSize.y);
     m_renderTexture.clear(sf::Color::Black);
 
     //draw
@@ -54,9 +54,9 @@ void Maze::loadLevel(std::string name)
         if (m_mazeData[i] == Wall) {
             sf::RectangleShape wall;
 
-            wall.setSize(sf::Vector2f(64, 64));
+            wall.setSize(sf::Vector2f(32, 32));
             wall.setFillColor(sf::Color::Blue);
-            wall.setPosition(64 * position.x, 64 * position.y);
+            wall.setPosition(32 * position.x, 32 * position.y);
 
             m_renderTexture.draw(wall);
         }
@@ -102,10 +102,22 @@ sf::Vector2f Maze::mapCellToPixelPosition(sf::Vector2i cell) const
 {
     sf::Vector2f pixel;
 
-    pixel.x = cell.x * 64 + 32;
-    pixel.y = cell.y * 64 + 32;
+    pixel.x = cell.x * 32 + 16;
+    pixel.y = cell.y * 32 + 16;
 
     return pixel;
+}
+
+bool Maze::isWall(sf::Vector2i position) const
+{
+    if (position.x < 0 ||
+        position.y < 0 ||
+        position.x >= m_mazeSize.x ||
+        position.y >= m_mazeSize.y) {
+        return false;
+    }
+
+    return m_mazeData[positionToIndex(position)] == Wall;
 }
 
 void Maze::draw(sf::RenderTarget & target, sf::RenderStates states) const
@@ -120,11 +132,11 @@ void Maze::draw(sf::RenderTarget & target, sf::RenderStates states) const
         sf::Vector2i position = indexToPosition(i);
 
         if (m_mazeData[i] == Dot) {
-            dot.setPosition(64 * position.x + 32, 64 * position.y + 32);
+            dot.setPosition(32 * position.x + 16, 32 * position.y + 16);
             target.draw(dot, states);
         }
         else if (m_mazeData[i] == SuperDot) {
-            superDot.setPosition(64 * position.x + 32, 64 * position.y + 32);
+            superDot.setPosition(32 * position.x + 16, 32 * position.y + 16);
             target.draw(superDot, states);
         }
     }

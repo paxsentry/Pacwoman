@@ -63,4 +63,6 @@ void PacWoman::update(sf::Time delta)
             m_isDead = true;
         }
     }
+
+    Character::update(delta);
 }

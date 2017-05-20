@@ -1,6 +1,6 @@
 #include "game.h"
 
-Game::Game() :m_window(sf::VideoMode(1280, 960), "Pac Woman")
+Game::Game() :m_window(sf::VideoMode(640, 480), "Pac Woman")
 {
     if (!m_font.loadFromFile("assets/font.ttf")) {
         throw std::runtime_error("Unable to load font file!");
@@ -43,15 +43,16 @@ void Game::run()
         {
             if (event.type == sf::Event::Closed) { m_window.close(); }
 
-            if (event.key.code == sf::Keyboard::I) { m_currentState->insertCoin(); }
+            if (event.type == sf::Event::KeyPressed)
+            {
+                if (event.key.code == sf::Keyboard::I) { m_currentState->insertCoin(); }
+                if (event.key.code == sf::Keyboard::S) { m_currentState->pressButton(); }
 
-            if (event.key.code == sf::Keyboard::S) { m_currentState->pressButton(); }
-
-            if (event.key.code == sf::Keyboard::Left) { m_currentState->moveStick(sf::Vector2i(-1, 0)); }
-            if (event.key.code == sf::Keyboard::Right) { m_currentState->moveStick(sf::Vector2i(1, 0)); }
-            if (event.key.code == sf::Keyboard::Up) { m_currentState->moveStick(sf::Vector2i(0, -1)); }
-            if (event.key.code == sf::Keyboard::Down) { m_currentState->moveStick(sf::Vector2i(0, 1)); }
-
+                if (event.key.code == sf::Keyboard::Left) { m_currentState->moveStick(sf::Vector2i(-1, 0)); }
+                if (event.key.code == sf::Keyboard::Right) { m_currentState->moveStick(sf::Vector2i(1, 0)); }
+                if (event.key.code == sf::Keyboard::Up) { m_currentState->moveStick(sf::Vector2i(0, -1)); }
+                if (event.key.code == sf::Keyboard::Down) { m_currentState->moveStick(sf::Vector2i(0, 1)); }
+            }
             m_currentState->update(frameClock.restart());
             m_window.clear();
             m_currentState->draw(m_window);

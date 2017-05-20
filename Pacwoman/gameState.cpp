@@ -24,7 +24,7 @@ NoCoinState::NoCoinState(Game* game)
     m_text.setString("Insert coin!");
 
     centerOrigin(m_text);
-    m_text.setPosition(480, 300);
+    m_text.setPosition(240, 150);
 
     m_displayText = true;
 }
@@ -37,7 +37,7 @@ GetReadyState::GetReadyState(Game* game)
     m_text.setCharacterSize(14);
 
     centerOrigin(m_text);
-    m_text.setPosition(480, 480);
+    m_text.setPosition(240,240);
 }
 
 PlayingState::PlayingState(Game* game)
@@ -178,6 +178,7 @@ void PlayingState::pressButton()
 
 void PlayingState::moveStick(sf::Vector2i direction)
 {
+    m_pacWoman->setDirection(direction);
 }
 
 void PlayingState::update(sf::Time delta)

@@ -20,6 +20,7 @@ public:
     sf::Vector2i mapPixelToCellPosition(sf::Vector2f pixel) const;
     sf::Vector2f mapCellToPixelPosition(sf::Vector2i cell) const;
 
+    bool isWall(sf::Vector2i position) const;
 private:
     enum CellData
     {

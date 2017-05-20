@@ -41,8 +41,12 @@ GetReadyState::GetReadyState(Game* game)
 }
 
 PlayingState::PlayingState(Game* game)
-    : GameState(game)
+    : GameState(game),
+    m_pacWoman(game->getTexture()),
+    m_ghost(game->getTexture())
 {
+    m_pacWoman.move(200, 200);
+    m_ghost.move(400, 400);
 }
 
 WonState::WonState(Game* game)
@@ -116,6 +120,7 @@ void GetReadyState::insertCoin()
 
 void GetReadyState::pressButton()
 {
+    getGame()->changeGameState(GameState::Playing);
 }
 
 void GetReadyState::moveStick(sf::Vector2i direction)
@@ -140,11 +145,13 @@ void GetReadyState::draw(sf::RenderWindow& window)
 
 void PlayingState::insertCoin()
 {
+    m_pacWoman.die();
 }
 
 void PlayingState::pressButton()
 {
-    getGame()->changeGameState(GameState::Playing);
+    m_ghost.setWeak(sf::seconds(3));
+    //getGame()->changeGameState(GameState::Playing);
 }
 
 void PlayingState::moveStick(sf::Vector2i direction)
@@ -153,10 +160,14 @@ void PlayingState::moveStick(sf::Vector2i direction)
 
 void PlayingState::update(sf::Time delta)
 {
+    m_pacWoman.update(delta);
+    m_ghost.update(delta);
 }
 
 void PlayingState::draw(sf::RenderWindow& window)
 {
+    window.draw(m_pacWoman);
+    window.draw(m_ghost);
 }
 
 void WonState::insertCoin()
@@ -173,12 +184,12 @@ void WonState::moveStick(sf::Vector2i direction)
 
 void WonState::update(sf::Time delta)
 {
-   static sf::Time timeBuffer = sf::Time::Zero;
-   timeBuffer += delta;
+    static sf::Time timeBuffer = sf::Time::Zero;
+    timeBuffer += delta;
 
-   if (timeBuffer.asSeconds() >= 5) {
-       getGame()->changeGameState(GameState::GetReady);
-   }
+    if (timeBuffer.asSeconds() >= 5) {
+        getGame()->changeGameState(GameState::GetReady);
+    }
 }
 
 void WonState::draw(sf::RenderWindow& window)

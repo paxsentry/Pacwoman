@@ -42,12 +42,33 @@ GetReadyState::GetReadyState(Game* game)
 
 PlayingState::PlayingState(Game* game)
     : GameState(game),
-    m_pacWoman(game->getTexture()),
-    m_ghost(game->getTexture())
+    //m_pacWoman(game->getTexture()),
+    m_pacWoman(nullptr)
+    //m_ghost(game->getTexture())
 {
-    m_pacWoman.move(200, 200);
-    m_ghost.move(400, 400);
+    /*m_pacWoman.move(200, 200);
+    m_ghost.move(400, 400);*/
     m_maze.loadLevel("level");
+
+    m_pacWoman = new PacWoman(game->getTexture());
+    m_pacWoman->setMaze(&m_maze);
+    m_pacWoman->setPosition(m_maze.mapCellToPixelPosition(m_maze.getPacWomanPosition()));
+
+    for (auto ghostPosition : m_maze.getGhostPositions()) {
+        Ghost* ghost = new Ghost(game->getTexture());
+        ghost->setMaze(&m_maze);
+        ghost->setPosition(m_maze.mapCellToPixelPosition(ghostPosition));
+
+        m_ghosts.push_back(ghost);
+    }
+}
+
+PlayingState::~PlayingState()
+{
+    delete m_pacWoman;
+    for (Ghost* ghost : m_ghosts) {
+        delete ghost;
+    }
 }
 
 WonState::WonState(Game* game)
@@ -146,12 +167,12 @@ void GetReadyState::draw(sf::RenderWindow& window)
 
 void PlayingState::insertCoin()
 {
-    m_pacWoman.die();
+    //m_pacWoman.die();
 }
 
 void PlayingState::pressButton()
 {
-    m_ghost.setWeak(sf::seconds(3));
+    //m_ghost.setWeak(sf::seconds(3));
     //getGame()->changeGameState(GameState::Playing);
 }
 
@@ -161,15 +182,22 @@ void PlayingState::moveStick(sf::Vector2i direction)
 
 void PlayingState::update(sf::Time delta)
 {
-    m_pacWoman.update(delta);
-    m_ghost.update(delta);
+    m_pacWoman->update(delta);
+
+    for (Ghost* ghost : m_ghosts) {
+        ghost->update(delta);
+    }
 }
 
 void PlayingState::draw(sf::RenderWindow& window)
 {
-    window.draw(m_pacWoman);
-    window.draw(m_ghost);
     window.draw(m_maze);
+
+    window.draw(*m_pacWoman);
+
+    for (Ghost* ghost : m_ghosts) {
+        window.draw(*ghost);
+    }
 }
 
 void WonState::insertCoin()

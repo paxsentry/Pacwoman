@@ -7,7 +7,7 @@
 class Maze : public sf::Drawable
 {
 public:
-    Maze();
+    Maze(sf::Texture& texture);
 
     void loadLevel(std::string name);
 
@@ -39,6 +39,7 @@ private:
     std::vector<sf::Vector2i> m_ghostPositions;
 
     sf::RenderTexture m_renderTexture;
+    sf::Texture& m_texture;
 };
 
 #endif // !PACWOMAN_MAZE_H

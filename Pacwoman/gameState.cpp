@@ -42,12 +42,9 @@ GetReadyState::GetReadyState(Game* game)
 
 PlayingState::PlayingState(Game* game)
     : GameState(game),
-    //m_pacWoman(game->getTexture()),
-    m_pacWoman(nullptr)
-    //m_ghost(game->getTexture())
+    m_pacWoman(nullptr),
+    m_maze(game->getTexture())
 {
-    /*m_pacWoman.move(200, 200);
-    m_ghost.move(400, 400);*/
     m_maze.loadLevel("level");
 
     m_pacWoman = new PacWoman(game->getTexture());

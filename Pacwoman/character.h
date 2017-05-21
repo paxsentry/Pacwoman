@@ -3,6 +3,7 @@
 
 #include <SFML\Graphics.hpp>
 #include "maze.h"
+#include <array>
 
 class Character : public sf::Drawable, public sf::Transformable
 {
@@ -16,6 +17,8 @@ public:
 
     void setSpeed(float speed);
     float getSpeed() const;
+
+    bool willMove() const;
 
 protected:
     virtual void changeDirection();

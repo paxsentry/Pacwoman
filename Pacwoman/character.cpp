@@ -114,6 +114,11 @@ float Character::getSpeed() const
     return m_speed;
 }
 
+bool Character::willMove() const
+{
+    return !m_maze->isWall(m_previousIntersection + m_nextDirection);
+}
+
 void Character::changeDirection()
 {
 }

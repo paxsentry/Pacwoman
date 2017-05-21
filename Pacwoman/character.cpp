@@ -2,7 +2,7 @@
 
 Character::Character()
     : m_maze(nullptr),
-    m_speed(9.f),
+    m_speed(100.f),
     m_currentDirection(1, 0),
     m_nextDirection(0, 0)
 {

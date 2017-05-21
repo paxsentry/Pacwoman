@@ -37,7 +37,7 @@ GetReadyState::GetReadyState(Game* game)
     m_text.setCharacterSize(14);
 
     centerOrigin(m_text);
-    m_text.setPosition(240,240);
+    m_text.setPosition(240, 240);
 }
 
 PlayingState::PlayingState(Game* game)
@@ -45,7 +45,7 @@ PlayingState::PlayingState(Game* game)
     m_pacWoman(nullptr),
     m_maze(game->getTexture())
 {
-    m_maze.loadLevel("level");
+    m_maze.loadLevel("large-level");
 
     m_pacWoman = new PacWoman(game->getTexture());
     m_pacWoman->setMaze(&m_maze);
@@ -58,6 +58,9 @@ PlayingState::PlayingState(Game* game)
 
         m_ghosts.push_back(ghost);
     }
+
+    m_camera.setSize(sf::Vector2f(480, 480));
+    m_camera.setCenter(m_pacWoman->getPosition());
 }
 
 PlayingState::~PlayingState()
@@ -180,6 +183,24 @@ void PlayingState::moveStick(sf::Vector2i direction)
 
 void PlayingState::update(sf::Time delta)
 {
+    m_camera.setCenter(m_pacWoman->getPosition());
+
+    if (m_camera.getCenter().x < 240) {
+        m_camera.setCenter(240, m_camera.getCenter().y);
+    }
+
+    if (m_camera.getCenter().y < 240) {
+        m_camera.setCenter(m_camera.getCenter().x, 240);
+    }
+
+    if (m_camera.getCenter().x > m_maze.getSize().x * 32 - 240) {
+        m_camera.setCenter(m_maze.getSize().x * 32 - 240, m_camera.getCenter().y);
+    }
+
+    if (m_camera.getCenter().y > m_maze.getSize().y * 32 - 240) {
+        m_camera.setCenter(m_camera.getCenter().x, m_maze.getSize().y * 32 - 240);
+    }
+
     m_pacWoman->update(delta);
 
     for (Ghost* ghost : m_ghosts) {
@@ -189,8 +210,8 @@ void PlayingState::update(sf::Time delta)
 
 void PlayingState::draw(sf::RenderWindow& window)
 {
+    window.setView(m_camera);
     window.draw(m_maze);
-
     window.draw(*m_pacWoman);
 
     for (Ghost* ghost : m_ghosts) {

@@ -21,6 +21,8 @@ public:
     sf::Vector2f mapCellToPixelPosition(sf::Vector2i cell) const;
 
     bool isWall(sf::Vector2i position) const;
+
+    sf::Vector2i getSize() const;
 private:
     enum CellData
     {

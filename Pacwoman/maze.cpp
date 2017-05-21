@@ -202,6 +202,11 @@ bool Maze::isWall(sf::Vector2i position) const
     return m_mazeData[positionToIndex(position)] == Wall;
 }
 
+sf::Vector2i Maze::getSize() const
+{
+    return m_mazeSize;
+}
+
 void Maze::draw(sf::RenderTarget & target, sf::RenderStates states) const
 {
     target.draw(sf::Sprite(m_renderTexture.getTexture()), states);

@@ -8,7 +8,7 @@
 class Ghost :public Character
 {
 public:
-    Ghost(sf::Texture& texture);
+    Ghost(sf::Texture& texture, PacWoman* pacWoman);
 
     enum State {
         Strong,
@@ -19,6 +19,9 @@ public:
     bool isWeak() const;
     
     void update(sf::Time delta);
+
+protected:
+    void changeDirection();
 
 private:
     void draw(sf::RenderTarget& target, sf::RenderStates states) const;

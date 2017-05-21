@@ -52,7 +52,7 @@ PlayingState::PlayingState(Game* game)
     m_pacWoman->setPosition(m_maze.mapCellToPixelPosition(m_maze.getPacWomanPosition()));
 
     for (auto ghostPosition : m_maze.getGhostPositions()) {
-        Ghost* ghost = new Ghost(game->getTexture());
+        Ghost* ghost = new Ghost(game->getTexture(), m_pacWoman);
         ghost->setMaze(&m_maze);
         ghost->setPosition(m_maze.mapCellToPixelPosition(ghostPosition));
 

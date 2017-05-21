@@ -60,6 +60,33 @@ void Character::update(sf::Time delta)
             }
         }
     }
+
+    static sf::Vector2i directions[4] = {
+        sf::Vector2i(1 ,0),
+        sf::Vector2i(0 ,1),
+        sf::Vector2i(-1 ,0),
+        sf::Vector2i(0 ,-1),
+    };
+
+    if (cellPosition != m_previousIntersection) {
+        if ((!m_currentDirection.y && (offset.x > -2 && offset.x < 2)) ||
+            (!m_currentDirection.x && (offset.y > -2 && offset.y < 2))) {
+            std::array<bool, 4> availableDirections;
+
+            int i = 0;
+            for (auto direction : directions) {
+                availableDirections[i] = m_maze->isWall(cellPosition + direction);
+                i++;
+            }
+
+            if (m_availableDirections != availableDirections) {
+                m_previousIntersection = cellPosition;
+                m_availableDirections = availableDirections;
+
+                changeDirection();
+            }
+        }
+    }
 }
 
 void Character::setDirection(sf::Vector2i direction)
@@ -85,4 +112,8 @@ void Character::setSpeed(float speed)
 float Character::getSpeed() const
 {
     return m_speed;
+}
+
+void Character::changeDirection()
+{
 }

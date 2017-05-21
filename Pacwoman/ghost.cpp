@@ -1,10 +1,10 @@
 #include "ghost.h"
 
-Ghost::Ghost(sf::Texture & texture)
+Ghost::Ghost(sf::Texture & texture, PacWoman* pacWoman)
     :m_visual(texture),
     m_isWeak(false),
-    m_weaknessDuration(sf::Time::Zero)
- //   m_pacWoman(pacWoman)
+    m_weaknessDuration(sf::Time::Zero),
+    m_pacWoman(pacWoman)
 {
     setOrigin(20, 20);
 
@@ -50,6 +50,10 @@ void Ghost::update(sf::Time delta)
     }
 
     Character::update(delta);
+}
+
+void Ghost::changeDirection()
+{
 }
 
 void Ghost::draw(sf::RenderTarget & target, sf::RenderStates states) const

@@ -17,11 +17,17 @@ public:
     void setSpeed(float speed);
     float getSpeed() const;
 
+protected:
+    virtual void changeDirection();
+
 private:
     float m_speed;
     sf::Vector2i m_currentDirection;
     sf::Vector2i m_nextDirection;
     Maze* m_maze;
+
+    sf::Vector2i m_previousIntersection;
+    std::array<bool, 4> m_availableDirections;
 };
 
 #endif  // !PACWOMAN_CHARACTER_H

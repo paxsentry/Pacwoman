@@ -78,6 +78,8 @@ public:
     void moveStick(sf::Vector2i direction);
     void update(sf::Time delta);
     void draw(sf::RenderWindow& window);
+    void moveCharactersToInitialPosition();
+    void updateCameraPosition();
 
 private:
     PacWoman* m_pacWoman;

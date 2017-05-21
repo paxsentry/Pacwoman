@@ -11,6 +11,8 @@ public:
 
     void loadLevel(std::string name);
 
+    sf::Vector2i getSize() const;
+
     sf::Vector2i getPacWomanPosition() const;
     std::vector<sf::Vector2i> getGhostPositions() const;
 
@@ -21,8 +23,10 @@ public:
     sf::Vector2f mapCellToPixelPosition(sf::Vector2i cell) const;
 
     bool isWall(sf::Vector2i position) const;
+    bool isSuperDot(sf::Vector2i position) const;
+    bool isBonue(sf::Vector2i position) const;
+    void pickObject(sf::Vector2i position);
 
-    sf::Vector2i getSize() const;
 private:
     enum CellData
     {

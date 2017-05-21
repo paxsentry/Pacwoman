@@ -20,8 +20,10 @@ public:
 
     bool willMove() const;
 
+    sf::FloatRect getCollisionBox() const;
+
 protected:
-    virtual void changeDirection();
+    virtual void changeDirection() {};
 
 private:
     float m_speed;

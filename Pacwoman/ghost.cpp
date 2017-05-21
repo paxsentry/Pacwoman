@@ -58,7 +58,7 @@ void Ghost::changeDirection()
         sf::Vector2i(1 ,0),
         sf::Vector2i(0 ,1),
         sf::Vector2i(-1 ,0),
-        sf::Vector2i(0 ,-1),
+        sf::Vector2i(0 ,-1)
     };
 
     std::map<float, sf::Vector2i> directionProb;
@@ -66,10 +66,10 @@ void Ghost::changeDirection()
     float targetAngle;
     sf::Vector2f distance = m_pacWoman->getPosition() - getPosition();
 
-    targetAngle = std::atan2(distance.x, distance.y) * (180 / 3.14159265358979323846);
+    targetAngle = std::atan2(distance.x, distance.y) * (180 / 3.1415);
 
     for (auto direction : directions) {
-        float directionAngle = std::atan2(distance.x, distance.y) * (180 / 3.14159265358979323846);
+        float directionAngle = std::atan2(direction.x, direction.y) * (180 / 3.1415);
 
         // Normalise the angle difference
         float diff = 180 - std::abs(std::abs(directionAngle - targetAngle) - 180);

@@ -2,9 +2,10 @@
 
 Character::Character()
     : m_maze(nullptr),
-    m_speed(100.f),
+    m_speed(25.f),
     m_currentDirection(1, 0),
-    m_nextDirection(0, 0)
+    m_nextDirection(0, 0),
+    m_previousIntersection(0, 0)
 {
 }
 
@@ -65,7 +66,7 @@ void Character::update(sf::Time delta)
         sf::Vector2i(1 ,0),
         sf::Vector2i(0 ,1),
         sf::Vector2i(-1 ,0),
-        sf::Vector2i(0 ,-1),
+        sf::Vector2i(0 ,-1)
     };
 
     if (cellPosition != m_previousIntersection) {
@@ -119,6 +120,9 @@ bool Character::willMove() const
     return !m_maze->isWall(m_previousIntersection + m_nextDirection);
 }
 
-void Character::changeDirection()
+sf::FloatRect Character::getCollisionBox() const
 {
+    sf::FloatRect bounds(3, 3, 34, 34);
+
+    return getTransform().transformRect(bounds);
 }

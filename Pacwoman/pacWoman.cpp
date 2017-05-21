@@ -16,7 +16,7 @@ void PacWoman::die()
     if (!m_isDying) {
         m_dieAnimator.play(sf::seconds(1), false);
         m_isDying = true;
-   }
+    }
 }
 
 bool PacWoman::isDying() const
@@ -54,4 +54,12 @@ void PacWoman::update(sf::Time delta)
     }
 
     Character::update(delta);
+}
+
+void PacWoman::reset()
+{
+    m_isDying = false;
+    m_isDead = false;
+    m_runAnimator.play(sf::seconds(0.25), true);
+    m_runAnimator.animate(m_visual);
 }

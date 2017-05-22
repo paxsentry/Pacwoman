@@ -28,8 +28,9 @@ NoCoinState::NoCoinState(Game* game)
     m_displayText = true;
 }
 
-GetReadyState::GetReadyState(Game* game)
-    : GameState(game)
+GetReadyState::GetReadyState(Game* game, GameState* playingState)
+    : GameState(game),
+    m_playingState(playingState)
 {
     m_text.setFont(game->getFont());
     m_text.setString("Press Start when you're ready...");
@@ -60,7 +61,34 @@ PlayingState::PlayingState(Game* game)
     }
 
     m_camera.setSize(sf::Vector2f(480, 480));
-    m_camera.setCenter(m_pacWoman->getPosition());
+    m_scene.create(480, 480);
+
+    m_scoreText.setFont(game->getFont());
+    m_scoreText.setCharacterSize(10);
+    m_scoreText.setPosition(10, 480);
+    m_scoreText.setString("0 points");
+
+    m_levelText.setFont(game->getFont());
+    m_levelText.setCharacterSize(10);
+    m_levelText.setPosition(160, 480);
+    m_levelText.setString("level x-y");
+
+    m_remainingDotsText.setFont(game->getFont());
+    m_remainingDotsText.setCharacterSize(10);
+    m_remainingDotsText.setPosition(280, 480);
+    m_remainingDotsText.setString("0x dots");
+
+    for (auto& liveSprite : m_liveSprite)
+    {
+        liveSprite.setTexture(game->getTexture());
+        liveSprite.setTextureRect(sf::IntRect(122, 0, 20, 20));
+    }
+
+    m_liveSprite[0].setPosition(sf::Vector2f(415, 480));
+    m_liveSprite[1].setPosition(sf::Vector2f(435, 480));
+    m_liveSprite[2].setPosition(sf::Vector2f(455, 480));
+
+    //m_camera.setCenter(m_pacWoman->getPosition());
 }
 
 PlayingState::~PlayingState()
@@ -147,7 +175,7 @@ void GetReadyState::pressButton()
 
 void GetReadyState::moveStick(sf::Vector2i direction)
 {
-    if (direction.x == -1)
+   /* if (direction.x == -1)
     {
         getGame()->changeGameState(GameState::Lost);
     }
@@ -155,14 +183,17 @@ void GetReadyState::moveStick(sf::Vector2i direction)
     if (direction.x == 1)
     {
         getGame()->changeGameState(GameState::Won);
-    }
+    }*/
 }
 
 void GetReadyState::update(sf::Time delta)
-{}
+{
+    m_playingState->update(delta);
+}
 
 void GetReadyState::draw(sf::RenderWindow& window)
 {
+    m_playingState->draw(window);
     window.draw(m_text);
 }
 
@@ -234,13 +265,27 @@ void PlayingState::update(sf::Time delta)
 
 void PlayingState::draw(sf::RenderWindow& window)
 {
-    window.setView(m_camera);
-    window.draw(m_maze);
-    window.draw(*m_pacWoman);
+    m_scene.clear();
+    m_scene.setView(m_camera);
+    m_scene.draw(m_maze);
+    m_scene.draw(*m_pacWoman);
 
     for (Ghost* ghost : m_ghosts)
     {
-        window.draw(*ghost);
+        m_scene.draw(*ghost);
+    }
+
+    m_scene.display();
+
+    window.draw(sf::Sprite(m_scene.getTexture()));
+
+    window.draw(m_scoreText);
+    window.draw(m_levelText);
+    window.draw(m_remainingDotsText);
+
+    for (unsigned int i = 0; i < 3; i++)
+    {
+        window.draw(m_liveSprite[i]);
     }
 }
 

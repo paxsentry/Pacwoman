@@ -56,7 +56,7 @@ private:
 class GetReadyState : public GameState
 {
 public:
-    GetReadyState(Game* game);
+    GetReadyState(Game* game, GameState* playingState);
 
     void insertCoin();
     void pressButton();
@@ -65,6 +65,7 @@ public:
     void draw(sf::RenderWindow& window);
 private:
     sf::Text m_text;
+    GameState* m_playingState;
 };
 
 class PlayingState : public GameState
@@ -87,6 +88,12 @@ private:
     Maze m_maze;
 
     sf::View m_camera;
+    sf::RenderTexture m_scene;
+
+    sf::Text m_scoreText;
+    sf::Text m_levelText;
+    sf::Text m_remainingDotsText;
+    sf::Sprite m_liveSprite[3];
 };
 
 class WonState : public GameState

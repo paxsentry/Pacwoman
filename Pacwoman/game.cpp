@@ -1,6 +1,6 @@
 #include "game.h"
 
-Game::Game() :m_window(sf::VideoMode(640, 480), "Pac Woman")
+Game::Game() :m_window(sf::VideoMode(480, 500), "Pac Woman")
 {
     if (!m_font.loadFromFile("assets/font.ttf")) {
         throw std::runtime_error("Unable to load font file!");
@@ -15,8 +15,8 @@ Game::Game() :m_window(sf::VideoMode(640, 480), "Pac Woman")
     }
 
     m_gameStates[GameState::NoCoin] = new NoCoinState(this);
-    m_gameStates[GameState::GetReady] = new GetReadyState(this);
     m_gameStates[GameState::Playing] = new PlayingState(this);
+    m_gameStates[GameState::GetReady] = new GetReadyState(this, m_gameStates[GameState::Playing]);
     m_gameStates[GameState::Won] = new WonState(this);
     m_gameStates[GameState::Lost] = new LostState(this);
 
@@ -64,8 +64,4 @@ void Game::run()
 void Game::changeGameState(GameState::State gameState)
 {
     m_currentState = m_gameStates[gameState];
-}
-
-GameState::GameState()
-{
 }

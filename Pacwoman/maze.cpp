@@ -10,6 +10,12 @@ Maze::Maze(sf::Texture& texture)
 
 void Maze::loadLevel(std::string name)
 {
+    m_mazeSize = sf::Vector2i(0, 0);
+    m_mazeData.clear();
+
+    m_pacWomanPosition = sf::Vector2i(0, 0);
+    m_ghostPositions.clear();
+
     sf::Image levelData;
 
     if (!levelData.loadFromFile("assets/levels/" + name + ".png")) {
@@ -203,12 +209,17 @@ bool Maze::isWall(sf::Vector2i position) const
     return m_mazeData[positionToIndex(position)] == Wall;
 }
 
+bool Maze::isDot(sf::Vector2i position)const
+{
+    return m_mazeData[positionToIndex(position)] == Dot;
+}
+
 bool Maze::isSuperDot(sf::Vector2i position) const
 {
     return m_mazeData[positionToIndex(position)] == SuperDot;
 }
 
-bool Maze::isBonue(sf::Vector2i position) const
+bool Maze::isBonus(sf::Vector2i position) const
 {
     return m_mazeData[positionToIndex(position)] == Bonus;
 }
@@ -245,4 +256,19 @@ void Maze::draw(sf::RenderTarget & target, sf::RenderStates states) const
             target.draw(superDot, states);
         }
     }
+}
+
+int Maze::getRemainingDots() const
+{
+    int remainingDots = 0;
+
+    for (unsigned int i = 0; i < m_mazeData.size(); i++)
+    {
+        if (m_mazeData[i] == Dot || m_mazeData[i] == SuperDot)
+        {
+            remainingDots++;
+        }
+    }
+
+    return remainingDots;
 }

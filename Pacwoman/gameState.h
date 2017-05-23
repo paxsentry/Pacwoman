@@ -81,6 +81,10 @@ public:
     void draw(sf::RenderWindow& window);
     void moveCharactersToInitialPosition();
     void updateCameraPosition();
+    void loadNextLevel();
+    void resetToZero();
+    void resetCurrentLevel();
+    void resetLiveCount();
 
 private:
     PacWoman* m_pacWoman;
@@ -94,36 +98,46 @@ private:
     sf::Text m_levelText;
     sf::Text m_remainingDotsText;
     sf::Sprite m_liveSprite[3];
+
+    int m_level;
+    int m_liveCount;
+    int m_score;
 };
 
 class WonState : public GameState
 {
 public:
-    WonState(Game* game);
+    WonState(Game* game, GameState* playingState);
 
     void insertCoin();
     void pressButton();
     void moveStick(sf::Vector2i direction);
     void update(sf::Time delta);
     void draw(sf::RenderWindow& window);
+
 private:
     sf::Text m_text;
+
+    PlayingState* m_playingState;
 };
 
 class LostState : public GameState
 {
 public:
-    LostState(Game* game);
+    LostState(Game* game, GameState* playingState);
 
     void insertCoin();
     void pressButton();
     void moveStick(sf::Vector2i direction);
     void update(sf::Time delta);
     void draw(sf::RenderWindow& window);
+
 private:
     sf::Text m_text;
     sf::Time m_countDown;
     sf::Text m_countDownText;
+
+    PlayingState* m_playingState;
 };
 
 #endif // !PACWOMAN_GAMESTATE_H

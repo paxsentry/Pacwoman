@@ -8,8 +8,8 @@ Ghost::Ghost(sf::Texture & texture, PacWoman* pacWoman)
 {
     setOrigin(20, 20);
 
-    m_strongAnimator.addFrame(sf::IntRect(40, 32, 40, 40));
-    //m_strongAnimator.addFrame(sf::IntRect(80, 32, 40, 40));
+    // m_strongAnimator.addFrame(sf::IntRect(40, 32, 40, 40));
+    m_strongAnimator.addFrame(sf::IntRect(80, 32, 40, 40));
 
     m_weakAnimator.addFrame(sf::IntRect(40, 72, 40, 40));
     //m_weakAnimator.addFrame(sf::IntRect(80, 72, 40, 40));
@@ -31,20 +31,24 @@ bool Ghost::isWeak() const
 
 void Ghost::update(sf::Time delta)
 {
-    if (m_isWeak) {
+    if (m_isWeak)
+    {
         m_weaknessDuration -= delta;
 
-        if (m_weaknessDuration <= sf::Time::Zero) {
+        if (m_weaknessDuration <= sf::Time::Zero)
+        {
             m_isWeak = false;
             m_strongAnimator.play(sf::seconds(0.25), true);
         }
     }
 
-    if (!m_isWeak) {
+    if (!m_isWeak)
+    {
         m_strongAnimator.update(delta);
         m_strongAnimator.animate(m_visual);
     }
-    else {
+    else
+    {
         m_weakAnimator.update(delta);
         m_weakAnimator.animate(m_visual);
     }
@@ -68,7 +72,8 @@ void Ghost::changeDirection()
 
     targetAngle = std::atan2(distance.x, distance.y) * (180 / 3.1415);
 
-    for (auto direction : directions) {
+    for (auto direction : directions)
+    {
         float directionAngle = std::atan2(direction.x, direction.y) * (180 / 3.1415);
 
         // Normalise the angle difference
@@ -81,7 +86,8 @@ void Ghost::changeDirection()
 
     auto it = directionProb.begin();
 
-    do {
+    do
+    {
         setDirection(it->second);
         it++;
     } while (!willMove());

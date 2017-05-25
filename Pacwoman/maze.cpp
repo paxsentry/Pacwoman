@@ -1,12 +1,12 @@
 #include "maze.h"
 #include "dot.h"
+#include <iostream>
 #include <cassert>
 
 Maze::Maze(sf::Texture& texture)
     :m_mazeSize(0, 0),
     m_texture(texture)
-{
-}
+{}
 
 void Maze::loadLevel(std::string name)
 {
@@ -18,12 +18,14 @@ void Maze::loadLevel(std::string name)
 
     sf::Image levelData;
 
-    if (!levelData.loadFromFile("assets/levels/" + name + ".png")) {
+    if (!levelData.loadFromFile("assets/levels/" + name + ".png"))
+    {
         throw std::runtime_error("Failed to load level (" + name + ")");
     }
     m_mazeSize = sf::Vector2i(levelData.getSize());
 
-    if (m_mazeSize.x < 15 || m_mazeSize.y < 15) {
+    if (m_mazeSize.x < 15 || m_mazeSize.y < 15)
+    {
         throw std::runtime_error("The loaded level is too small (min 15 cells)");
     }
 
@@ -36,11 +38,13 @@ void Maze::loadLevel(std::string name)
             if (cellData == sf::Color::Black) { m_mazeData.push_back(Wall); }
             else if (cellData == sf::Color::White) { m_mazeData.push_back(Dot); }
             else if (cellData == sf::Color::Green) { m_mazeData.push_back(SuperDot); }
-            else if (cellData == sf::Color::Blue) {
+            else if (cellData == sf::Color::Blue)
+            {
                 m_pacWomanPosition = sf::Vector2i(x, y);
                 m_mazeData.push_back(Empty);
             } // PacWoman position
-            else if (cellData == sf::Color::Red) {
+            else if (cellData == sf::Color::Red)
+            {
                 m_ghostPositions.push_back(sf::Vector2i(x, y));
                 m_mazeData.push_back(Empty);
             } // Ghost position
@@ -73,7 +77,8 @@ void Maze::loadLevel(std::string name)
     {
         sf::Vector2i position = indexToPosition(i);
 
-        if (isWall(position)) {
+        if (isWall(position))
+        {
             wall.setPosition(32 * position.x, 32 * position.y);
             m_renderTexture.draw(wall);
 
@@ -81,22 +86,26 @@ void Maze::loadLevel(std::string name)
             innerBorder.setPosition(mapCellToPixelPosition(position));
             outerBorder.setPosition(mapCellToPixelPosition(position));
 
-            if (!isWall(position + sf::Vector2i(1, 0))) {
+            if (!isWall(position + sf::Vector2i(1, 0)))
+            {
                 border.setRotation(0);
                 m_renderTexture.draw(border);
             }
 
-            if (!isWall(position + sf::Vector2i(0, 1))) {
+            if (!isWall(position + sf::Vector2i(0, 1)))
+            {
                 border.setRotation(90);
                 m_renderTexture.draw(border);
             }
 
-            if (!isWall(position + sf::Vector2i(-1, 0))) {
+            if (!isWall(position + sf::Vector2i(-1, 0)))
+            {
                 border.setRotation(180);
                 m_renderTexture.draw(border);
             }
 
-            if (!isWall(position + sf::Vector2i(0, -1))) {
+            if (!isWall(position + sf::Vector2i(0, -1)))
+            {
                 border.setRotation(270);
                 m_renderTexture.draw(border);
             }
@@ -202,7 +211,8 @@ bool Maze::isWall(sf::Vector2i position) const
     if (position.x < 0 ||
         position.y < 0 ||
         position.x >= m_mazeSize.x ||
-        position.y >= m_mazeSize.y) {
+        position.y >= m_mazeSize.y)
+    {
         return false;
     }
 
@@ -228,7 +238,6 @@ void Maze::pickObject(sf::Vector2i position)
 {
     assert(!isWall(position));
     m_mazeData[positionToIndex(position)] = Empty;
-
 }
 
 sf::Vector2i Maze::getSize() const
@@ -247,11 +256,13 @@ void Maze::draw(sf::RenderTarget & target, sf::RenderStates states) const
     {
         sf::Vector2i position = indexToPosition(i);
 
-        if (m_mazeData[i] == Dot) {
+        if (m_mazeData[i] == Dot)
+        {
             dot.setPosition(32 * position.x + 16, 32 * position.y + 16);
             target.draw(dot, states);
         }
-        else if (m_mazeData[i] == SuperDot) {
+        else if (m_mazeData[i] == SuperDot)
+        {
             superDot.setPosition(32 * position.x + 16, 32 * position.y + 16);
             target.draw(superDot, states);
         }

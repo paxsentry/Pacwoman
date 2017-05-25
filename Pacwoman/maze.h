@@ -1,7 +1,7 @@
 #ifndef PACWOMAN_MAZE_H
 #define PACWOMAN_MAZE_H
 
-#include <array>
+#include <vector>
 #include <SFML\Graphics.hpp>
 
 class Maze : public sf::Drawable

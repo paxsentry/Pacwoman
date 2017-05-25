@@ -100,7 +100,7 @@ sf::Vector2i Character::getDirection() const
     return m_currentDirection;
 }
 
-void Character::setMaze(Maze * maze)
+void Character::setMaze(Maze* maze)
 {
     m_maze = maze;
 }

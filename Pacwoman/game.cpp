@@ -53,11 +53,11 @@ void Game::run()
                 if (event.key.code == sf::Keyboard::Up) { m_currentState->moveStick(sf::Vector2i(0, -1)); }
                 if (event.key.code == sf::Keyboard::Down) { m_currentState->moveStick(sf::Vector2i(0, 1)); }
             }
-            m_currentState->update(frameClock.restart());
-            m_window.clear();
-            m_currentState->draw(m_window);
-            m_window.display();
         }
+        m_currentState->update(frameClock.restart());
+        m_window.clear();
+        m_currentState->draw(m_window);
+        m_window.display();
     }
 }
 

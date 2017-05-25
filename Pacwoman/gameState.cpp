@@ -23,7 +23,7 @@ NoCoinState::NoCoinState(Game* game)
     m_text.setString("Insert coin!");
 
     centerOrigin(m_text);
-    m_text.setPosition(240, 150);
+    m_text.setPosition(240, 180);
 
     m_displayText = true;
 }
@@ -42,8 +42,8 @@ GetReadyState::GetReadyState(Game* game, GameState* playingState)
 
 PlayingState::PlayingState(Game* game)
     : GameState(game),
-    m_pacWoman(nullptr),
     m_maze(game->getTexture()),
+    m_pacWoman(nullptr),
     m_level(0),
     m_liveCount(3),
     m_score(0)
@@ -241,8 +241,9 @@ void PlayingState::update(sf::Time delta)
         m_maze.pickObject(cellPosition);
     }
 
-    for (Ghost* ghost : m_ghosts)
+    for (unsigned int i = 0; i < m_ghosts.size(); i++)
     {
+        Ghost* ghost = m_ghosts[i];
         if (ghost->getCollisionBox().intersects(m_pacWoman->getCollisionBox()))
         {
             if (ghost->isWeak())
@@ -386,7 +387,7 @@ void PlayingState::loadNextLevel()
     {
         Ghost* ghost = new Ghost(getGame()->getTexture(), m_pacWoman);
         ghost->setMaze(&m_maze);
-        ghost->setPosition(m_maze.mapCellToPixelPosition(ghostPosition));
+       // ghost->setPosition(m_maze.mapCellToPixelPosition(ghostPosition));
 
         m_ghosts.push_back(ghost);
     }
@@ -415,7 +416,7 @@ void PlayingState::resetToZero()
 
     resetCurrentLevel();
 
-    m_score * 0;
+    m_score = 0;
 }
 
 void PlayingState::resetCurrentLevel()
